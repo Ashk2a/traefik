@@ -1,0 +1,4 @@
+.vscode
+.idea
+config/acme.json
+letsencrypt/*

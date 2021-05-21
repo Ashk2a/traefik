@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+    traefik:
+        image: traefik:v2.4
+        container_name: "traefik"
+        networks:
+            - ynov_apy
+            - ynov_client_referentiel
+            - wezzapi
+            - wezzapp
+        command: --api.insecure=true --providers.docker
+        ports:
+            # The HTTP port
+            - "80:80"
+            - "443:443"
+            # The Web UI (enabled by --api.insecure=true)
+            - "8070:8080"
+        volumes:
+            # So that Traefik can listen to the Docker events
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - ./config/traefik.toml:/traefik.toml
+            - ./config/acme.json:/acme.json
+        labels:
+            - "traefik.enable=true" # enables the service
+            - "traefik.http.routers.traefik.rule=Host(`traefik.local`)" # domain to expose on
+
+networks:
+    ynov_apy:
+        name: ynov_apy
+    ynov_client_referentiel:
+        name: ynov_client_referentiel
+    wezzapi:
+        name: wezzapi
+    wezzapp:
+        name: wezzapp
