@@ -8,6 +8,7 @@ services:
             - ynov_apy
             - ynov_client_referentiel
             - ynov_traitements
+            - ucp
             - wezzapi
             - wezzapp
         command: --api.insecure=true --providers.docker
@@ -33,6 +34,8 @@ networks:
         name: ynov_client_referentiel
     ynov_traitements:
         name: ynov_traitements
+    ucp:
+        name: ucp
     wezzapi:
         name: wezzapi
     wezzapp:
