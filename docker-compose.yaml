@@ -26,7 +26,7 @@ services:
         labels:
             - "traefik.enable=true" # enables the service
             - "traefik.http.routers.traefik.rule=Host(`traefik.local`)" # domain to expose on
-
+        restart: unless-stopped
 networks:
     ynov_apy:
         name: ynov_apy
