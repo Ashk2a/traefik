@@ -13,6 +13,7 @@ services:
             - wezzapp
             - php8_test
             - larablog
+            - oms_api
         command: --api.insecure=true --providers.docker
         ports:
             # The HTTP port
@@ -46,3 +47,5 @@ networks:
         name: php8_test
     larablog:
         name: larablog
+    oms_api:
+        name: oms_api
