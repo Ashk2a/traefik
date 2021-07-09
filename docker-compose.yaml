@@ -5,9 +5,9 @@ services:
         image: traefik:v2.4
         container_name: "traefik"
         networks:
-            - ynov_apy
             - ynov_client_referentiel
             - ynov_traitements
+            - ynov_apy
             - ucp
             - wezzapi
             - wezzapp
@@ -30,10 +30,10 @@ services:
             - "traefik.http.routers.traefik.rule=Host(`traefik.local`)" # domain to expose on
         restart: unless-stopped
 networks:
-    ynov_apy:
-        name: ynov_apy
     ynov_client_referentiel:
         name: ynov_client_referentiel
+    ynov_apy:
+        name: ynov_apy
     ynov_traitements:
         name: ynov_traitements
     ucp:
