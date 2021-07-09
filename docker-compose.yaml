@@ -11,6 +11,8 @@ services:
             - ucp
             - wezzapi
             - wezzapp
+            - php8_test
+            - larablog
         command: --api.insecure=true --providers.docker
         ports:
             # The HTTP port
@@ -40,3 +42,7 @@ networks:
         name: wezzapi
     wezzapp:
         name: wezzapp
+    php8_test:
+        name: php8_test
+    larablog:
+        name: larablog
