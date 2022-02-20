@@ -2,8 +2,10 @@ version: '3.9'
 
 services:
     traefik:
-        image: traefik:v2.4
+        image: traefik:v2.5
         container_name: "traefik"
+        security_opt:
+            - no-new-privileges:true
         networks:
             proxy:
         command: --api.insecure=true --providers.docker --web --docker --logLevel=DEBUG
@@ -16,12 +18,12 @@ services:
         volumes:
             # So that Traefik can listen to the Docker events
             - /var/run/docker.sock:/var/run/docker.sock:ro
-            - ./config/traefik.toml:/traefik.toml
-            - ./config/acme.json:/acme.json
-        labels:
-            - "traefik.enable=true" # enables the service
-            - "traefik.http.routers.traefik.rule=Host(`traefik.local`)" # domain to expose on
-            - "traefik.docker.network=traefik_proxy"
+            # Map the static configuration into the container
+            - ./config/static.yml:/etc/traefik/traefik.yml:ro
+            # Map the dynamic configuration into the container
+            - ./config/dynamic.yml:/etc/traefik/dynamic.yml:ro
+            # Map the certificats into the container
+            - ./certs:/etc/certs:ro
         restart: unless-stopped
 networks:
     proxy:

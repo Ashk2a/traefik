@@ -1,4 +1,3 @@
 .vscode
 .idea
-config/acme.json
-letsencrypt/*
+domains.txt
