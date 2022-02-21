@@ -8,7 +8,6 @@ services:
             - no-new-privileges:true
         networks:
             proxy:
-        command: --api.insecure=true --providers.docker --web --docker --logLevel=DEBUG
         ports:
             # The HTTP port
             - "80:80"
