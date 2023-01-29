@@ -2,29 +2,38 @@ version: '3.9'
 
 services:
     traefik:
-        image: traefik:v2.6
+        image: traefik:latest
         container_name: "traefik"
+        restart: unless-stopped
         security_opt:
             - no-new-privileges:true
         networks:
-            proxy:
+            - proxy
         ports:
             # The HTTP port
             - "80:80"
             - "443:443"
-            # The Web UI (enabled by --api.insecure=true)
-            - "8070:8080"
         volumes:
             # So that Traefik can listen to the Docker events
             - /var/run/docker.sock:/var/run/docker.sock:ro
             # Map the static configuration into the container
-            - ./config/static.yml:/etc/traefik/traefik.yml:ro
+            - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
             # Map the dynamic configuration into the container
             - ./config/dynamic.yml:/etc/traefik/dynamic.yml:ro
             # Map the certificats into the container
             - ./certs:/etc/certs:ro
-        restart: unless-stopped
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.traefik.entrypoints=http"
+            - "traefik.http.routers.traefik.rule=Host(`traefik.local`)"
+            - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+            - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+            - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+            - "traefik.http.routers.traefik-secure.entrypoints=https"
+            - "traefik.http.routers.traefik-secure.rule=Host(`traefik.local`)"
+            - "traefik.http.routers.traefik-secure.tls=true"
+            - "traefik.http.routers.traefik-secure.service=api@internal"
+
 networks:
     proxy:
-        driver: bridge
-        name: traefik_proxy
+        external: true

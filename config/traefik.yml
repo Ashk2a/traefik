@@ -19,6 +19,9 @@ log:
   level: INFO
   format: common
 
+serversTransport:
+  insecureSkipVerify: true
+
 entryPoints:
   http:
     address: ":80"
