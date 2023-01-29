@@ -1,9 +1,3 @@
-#http:
-#  routers:
-#    traefik:
-#      rule: "Host(`traefik.local`)"
-#      service: "api@internal"
-
 tls:
   certificates:
     - certFile: "/etc/certs/local.pem"
